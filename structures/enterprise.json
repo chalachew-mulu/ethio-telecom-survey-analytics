@@ -1,0 +1,44 @@
+{
+  "name": "Enterprise",
+  "_comment": "Enterprise Customers' Satisfaction Survey. 'group' = every rating question in that script group; 'questions' = explicit list; 'match' = regex on question names; 'info_questions' / 'info_only' = shown in the Topline but NOT counted in the pillar means or the OSS (as in the Ethio telecom Enterprise Topline).",
+  "pillars": [
+    {"title": "Quality of information received", "children": [
+        {"title": "Overall communication from channels", "group": "group_rate_media"},
+        {"title": "Information", "group": "rate_media"},
+        {"title": "Website", "group": "website_rating"}
+    ]},
+    {"title": "Advise and customer care at POS", "group": "sub_group"},
+    {"title": "Product purchase and activation", "group": "rateofe"},
+    {"title": "Easiness of products and services", "questions": ["ease_of_experience"]},
+    {"title": "Service process quality", "children": [
+        {"title": "Process time", "group": "qualityofprocess"},
+        {"title": "Quality of process", "group": "quality_of_process"}
+    ]},
+    {"title": "Value For Money", "questions": ["overall_mone_val"], "children": [
+        {"title": "VFM - Corporate / Large", "group": "money_value_rate", "info_only": true},
+        {"title": "VFM - SME / SOHO / Basic", "group": "perciev_price", "info_only": true}
+    ]},
+    {"title": "Network service quality", "info_questions": ["overall_rate", "overall_rate_internet", "recommend_telecome"], "children": [
+        {"title": "Voice services", "group": "net_ranking"},
+        {"title": "Fixed Broadband Internet or VPN services", "group": "evaluate_broad", "info_questions": ["recommend_broadband"]},
+        {"title": "Mobile Internet services", "children": [
+            {"title": "4G", "group": "evaluate_mis", "match": "^lte_4g"},
+            {"title": "3G", "group": "evaluate_mis", "match": "^(accessiblity|reliablity_3g|mob_phone_3g)$"}
+        ]}
+    ]},
+    {"title": "After sales service", "children": [
+        {"title": "Call centre", "group": "rating_call_center"},
+        {"title": "Account manager", "group": "contact_man"},
+        {"title": "Maintenance", "group": "other_rating"},
+        {"title": "Billing process", "group": "Postpaid_customers"}
+    ]}
+  ],
+  "segments": [
+    {"var": "type_of_enterprise", "title": "Type of enterprise"},
+    {"var": "comp_location", "title": "Company location"},
+    {"var": "telecom_zone", "title": "Telecom zone"},
+    {"var": "telecom_region", "title": "Telecom region"}
+  ],
+  "extra_segments": ["enterprise_service", "actisim", "typeofsim", "last_visit", "network_type", "lastcall_time", "faced_faults", "faster_service", "used_safaricom"],
+  "bands": {"low_below": 7.0, "high_from": 8.0}
+}

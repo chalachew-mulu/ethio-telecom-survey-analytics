@@ -1,0 +1,156 @@
+{
+  "name": "Residential",
+  "_comment": "Maps SurveyCTO group names to the report pillars. 'group' = take every rating question inside that script group; 'questions' = explicit list; 'match' = regex filter on question names; 'show_header': false hides a title row. Edit this file (or upload a new one) when the questionnaire changes.",
+  "pillars": [
+    {
+      "title": "Quality of information received",
+      "children": [
+        {
+          "title": "Overall communication from channels",
+          "group": "group_rate_media"
+        },
+        {
+          "title": "",
+          "group": "group_rate_info",
+          "show_header": false
+        }
+      ]
+    },
+    {
+      "title": "Advise and customer care at POS",
+      "group": "last_shop_visit"
+    },
+    {
+      "title": "Product purchase and activation",
+      "group": "pro_activation_attractiveness"
+    },
+    {
+      "title": "Easiness of products and services",
+      "questions": [
+        "product_easiness"
+      ]
+    },
+    {
+      "title": "Value For Money",
+      "group": "value_money1"
+    },
+    {
+      "title": "Network service quality",
+      "children": [
+        {
+          "title": "Voice",
+          "group": "telecome_performance"
+        },
+        {
+          "title": "Mobile internet (data)",
+          "children": [
+            {
+              "title": "3G",
+              "group": "mobile_network",
+              "match": "_3g$"
+            },
+            {
+              "title": "4G",
+              "group": "mobile_network",
+              "match": "_4g$"
+            }
+          ]
+        },
+        {
+          "title": "Fixed Broadband",
+          "group": "broadband_internet"
+        }
+      ]
+    },
+    {
+      "title": "Top-up process",
+      "group": "not_post_paid"
+    },
+    {
+      "title": "After sales service",
+      "children": [
+        {
+          "title": "Call Centre",
+          "group": "experience_rate"
+        },
+        {
+          "title": "Social Media",
+          "group": "social_media_rate"
+        },
+        {
+          "title": "Self-serve",
+          "group": "rate_self_services"
+        },
+        {
+          "title": "SMS",
+          "group": "rate_sms_service"
+        },
+        {
+          "title": "Billing",
+          "group": "postpaid_billing"
+        }
+      ]
+    }
+  ],
+  "driver_dependent": "satisfaction",
+  "segments": [
+    {
+      "var": "location_of_resident",
+      "title": "Location of residence"
+    },
+    {
+      "var": "telecom_zone",
+      "title": "Telecom zone"
+    },
+    {
+      "var": "telecom_region",
+      "title": "Telecom region"
+    },
+    {
+      "var": "nature_of_kebele",
+      "title": "Nature of kebele"
+    },
+    {
+      "var": "respo_gender",
+      "title": "Gender"
+    },
+    {
+      "var": "age_ategories",
+      "alias": [
+        "age_categories"
+      ],
+      "title": "Age category",
+      "value_labels": {
+        "1": "15-19",
+        "2": "20-29",
+        "3": "30-44",
+        "4": "45-65",
+        "5": "66+"
+      }
+    },
+    {
+      "var": "monthly_average_expenditure",
+      "title": "Monthly average expenditure"
+    }
+  ],
+  "extra_segments": [
+    "how_long",
+    "num_of_sim",
+    "sim_use",
+    "services_use",
+    "type_of_device",
+    "educational_level",
+    "occupation",
+    "marital_status",
+    "network_type",
+    "most_recharge_method",
+    "last_visit",
+    "used_safaricom",
+    "asham_tele",
+    "how_easy_network"
+  ],
+  "bands": {
+    "low_below": 7.0,
+    "high_from": 8.0
+  }
+}
