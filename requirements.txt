@@ -5,3 +5,4 @@ openpyxl
 python-calamine
 scipy
 altair
+vl-convert-python

@@ -25,11 +25,11 @@ warnings.filterwarnings("ignore", category=RuntimeWarning)
 
 # ------------------------------------------------------------------ statistics catalogue
 STATS = {
-    "n": "N (valid)", "missing": "Missing / non-scale (n)", "mean": "Mean", "median": "Median", "mode": "Mode",
+    "n": "N (valid answers)", "missing": "Missing or Don't know (n)", "mean": "Mean", "median": "Median", "mode": "Mode",
     "std": "Std. deviation", "var": "Variance", "sem": "Std. error", "ci_lo": "95% CI (low)", "ci_hi": "95% CI (high)",
     "min": "Minimum", "q1": "Q1 (25th pct)", "q3": "Q3 (75th pct)", "max": "Maximum", "iqr": "IQR", "range": "Range",
-    "sum": "Sum (= weighted mean, Mean x N)", "cv": "Coeff. of variation %", "skew": "Skewness",
-    "pct_low": "% Low (1-5)", "pct_mid": "% Mid (6-7)", "pct_high": "% High (8-10)", "top2": "Top-2 box % (9-10)",
+    "sum": "Weighted score (Mean × N)", "cv": "Coeff. of variation %", "skew": "Skewness",
+    "pct_low": "% Low scores (1–5)", "pct_mid": "% Mid scores (6–7)", "pct_high": "% High scores (8–10)", "top2": "% Top scores (9–10)",
 }
 RATING_ONLY = {"pct_low", "pct_mid", "pct_high", "top2"}
 DEFAULT_STATS = ["n", "mean", "median", "mode", "std", "min", "max", "pct_high"]

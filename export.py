@@ -1,6 +1,6 @@
 """export.py - professional, colour-coded Excel report.
 
-Topline sheet columns: Label name | Variable name | Mean | N responded (Base) |
+Scorecard sheet columns: Indicator / question | Variable code | Mean score | Respondents (N) |
 Weighted mean (= mean x N = sum of ratings) | Average of question means | % Low | % High.
 Question rows hold the data; group / sub-group / pillar / OSS rows are live Excel
 formulas over the question rows beneath them (so the sheet can be audited):
@@ -73,12 +73,12 @@ def _title(ws, text, sub, ncols):
     ws.row_dimensions[2].height = 30
 
 
-def _write_topline(ws, t, filter_text, n_resp, round_q, low_t, high_t, title="Customers' Satisfaction Survey - Topline"):
+def _write_topline(ws, t, filter_text, n_resp, round_q, low_t, high_t, title="Customer Satisfaction Scorecard"):
     _title(ws, title,
            f"Filters: {filter_text}   |   Respondents: {n_resp:,}   |   "
-           f"Weighted mean = Mean x N responded ({'2-dp rounded means, as in the Ethio telecom sheet' if round_q else 'exact sum of ratings'})", 8)
-    heads = ["Label name", "Variable name", "Mean", "N responded (Base)", "Weighted mean\n(Mean x N)",
-             "Average of\nquestion means", "% Low\n(1-5)", "% High\n(8-10)"]
+           f"Weighted score = Mean × Respondents ({'2-dp rounded means, as in the Ethio telecom sheet' if round_q else 'exact sum of ratings'})", 8)
+    heads = ["Indicator / question", "Variable code", "Mean score", "Respondents (N)", "Weighted score\n(Mean × N)",
+             "Average of\nquestion means", "% Low scores\n(1–5)", "% High scores\n(8–10)"]
     for j, h in enumerate(heads, 1): ws.cell(4, j, h)
     _hdr(ws, 4, 1, 8)
     first = 5
@@ -147,7 +147,7 @@ def _write_topline(ws, t, filter_text, n_resp, round_q, low_t, high_t, title="Cu
 
 def _write_summary(ws, t, low_t, high_t):
     g = t[t.kind.isin(["oss", "pillar", "sub"])].reset_index(drop=True)
-    heads = ["Group / sub-group", "Type", "Mean", "Average of question means", "N responded", "Weighted mean", "% Low", "% High", "Rank (pillars)"]
+    heads = ["Pillar / sub-group", "Level", "Mean score", "Average of question means", "Respondents (N)", "Weighted score (Mean × N)", "% Low scores (1–5)", "% High scores (8–10)", "Rank (pillars)"]
     _title(ws, "Group & sub-group summary", "Mean = pooled (weighted) mean of every valid response beneath the group.", len(heads))
     for j, h in enumerate(heads, 1): ws.cell(4, j, h)
     _hdr(ws, 4, 1, len(heads))
@@ -176,7 +176,7 @@ def _write_wide(ws, w, low_t, high_t, title, min_base=30):
     cats = [c for c in w.columns if c not in ("kind", "level", "Variable", "Indicator") and not str(c).endswith("(n)")]
     ncols = 2 + 2 * len(cats)
     _title(ws, title, "Means (and N responded) per category. Colour scale: red = lower, green = higher across each row block.", ncols)
-    ws.cell(4, 1, "Label name"); ws.cell(4, 2, "Variable name")
+    ws.cell(4, 1, "Indicator / question"); ws.cell(4, 2, "Variable code")
     ws.cell(3, 1, None)
     for k, c in enumerate(cats):
         c1 = 3 + 2 * k
@@ -244,6 +244,9 @@ def _write_charts(ws, t, wide):
     ch.add_data(Reference(ws, min_col=2, min_row=1, max_row=1 + len(p)), titles_from_data=True)
     ch.set_categories(Reference(ws, min_col=1, min_row=2, max_row=1 + len(p)))
     ch.legend = None; ch.height, ch.width = 9, 20
+    from openpyxl.chart.shapes import GraphicalProperties
+    ch.graphical_properties = GraphicalProperties(solidFill="FFFFFF")
+    ch.plot_area.graphicalProperties = GraphicalProperties(solidFill="FFFFFF")
     ch.dataLabels = __import__("openpyxl").chart.label.DataLabelList(); ch.dataLabels.showVal = True
     ch.x_axis.delete = False; ch.y_axis.delete = False
     ws.add_chart(ch, "D1")
@@ -285,24 +288,24 @@ METHOD = [
 
 def to_excel(topline, filter_text, n_resp=0, min_base=30, wide=None, wide_title="By segment",
              drivers=None, comparison=None, round_q=False, low_t=7.0, high_t=8.0,
-             title="Customers' Satisfaction Survey - Topline") -> bytes:
+             title="Customer Satisfaction Scorecard") -> bytes:
     wb = Workbook()
-    ws = wb.active; ws.title = "Topline"
+    ws = wb.active; ws.title = "Scorecard"
     _write_topline(ws, topline, filter_text, n_resp, round_q, low_t, high_t, title)
-    _write_summary(wb.create_sheet("Group summary"), topline, low_t, high_t)
+    _write_summary(wb.create_sheet("Pillar summary"), topline, low_t, high_t)
     if wide is not None:
         import re as _re
         safe = _re.sub(r'[\\/?*\[\]:]', '', str(wide_title)).strip()[:31] or 'By segment'
         _write_wide(wb.create_sheet(safe), wide, low_t, high_t, wide_title, min_base)
     _write_charts(wb.create_sheet("Charts"), topline, wide)
     if comparison is not None and len(comparison):
-        _write_df(wb.create_sheet("Round comparison"), comparison,
-                  {"Mean": "0.00", "Previous mean": "0.00", "% growth in mean": "0.0"}, "Round comparison")
+        _write_df(wb.create_sheet("Change vs last round"), comparison,
+                  {"Mean": "0.00", "Previous mean": "0.00", "% growth in mean": "0.0"}, "Change vs last round")
     if drivers is not None and len(drivers["table"]):
         d = drivers["table"]
-        s = wb.create_sheet("Drivers")
+        s = wb.create_sheet("Key drivers")
         _write_df(s, d, {"Std. coefficient": "0.000"}, f"Standardized coefficients (R2 = {drivers['r2']:.3f}, n = {drivers['n']:,})")
-    m = wb.create_sheet("Method")
+    m = wb.create_sheet("Methodology")
     for i, line in enumerate(METHOD, 1):
         m.cell(i, 1, line).font = Font(name=FONT, size=10, bold=(i == 1))
         m.cell(i, 1).alignment = Alignment(wrap_text=True, vertical="top")

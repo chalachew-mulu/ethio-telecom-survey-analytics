@@ -18,8 +18,12 @@ def short(label: str, n: int = 70) -> str:
 
 
 def _style(ch):
-    return ch.configure_axis(labelFontSize=12, titleFontSize=12, labelColor="#222", titleColor="#222") \
-             .configure_legend(labelFontSize=12, titleFontSize=12)
+    return (ch.properties(background="#FFFFFF", padding={"left": 12, "right": 12, "top": 12, "bottom": 12})
+              .configure_axis(labelFontSize=12, titleFontSize=12, labelColor="#222222", titleColor="#222222",
+                              domainColor="#999999", tickColor="#999999", gridColor="#E6E6E6")
+              .configure_legend(labelFontSize=12, titleFontSize=12, labelColor="#222222", titleColor="#222222")
+              .configure_title(fontSize=15, anchor="start", color="#1F3864")
+              .configure_view(strokeWidth=0))
 
 
 def scorecard(t, low_t, high_t):

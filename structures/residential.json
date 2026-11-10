@@ -100,11 +100,19 @@
     },
     {
       "var": "telecom_zone",
-      "title": "Telecom zone"
+      "title": "Telecom zone (Addis Ababa)"
+    },
+    {
+      "var": "name_subcity",
+      "title": "Sub-city (Addis Ababa)"
     },
     {
       "var": "telecom_region",
-      "title": "Telecom region"
+      "title": "Telecom region (other regions)"
+    },
+    {
+      "var": "name_of_city",
+      "title": "City (other regions)"
     },
     {
       "var": "nature_of_kebele",
@@ -130,7 +138,7 @@
     },
     {
       "var": "monthly_average_expenditure",
-      "title": "Monthly average expenditure"
+      "title": "Monthly expenditure band"
     }
   ],
   "extra_segments": [
@@ -152,5 +160,253 @@
   "bands": {
     "low_below": 7.0,
     "high_from": 8.0
-  }
+  },
+  "labels": {
+    "age_ategories": "Age category",
+    "monthly_average_expenditure": "Monthly expenditure band",
+    "monthly_expenditure_code": "Monthly expenditure code",
+    "respondent_age": "Age (years)",
+    "mob_month_expense": "Monthly telecom spend (Birr)",
+    "expense_div_by_sim": "Monthly spend per SIM (Birr)",
+    "location_of_resident": "Location of residence",
+    "respo_gender": "Gender",
+    "num_of_sim": "Number of active SIM cards",
+    "sim_use": "SIM type",
+    "how_long": "Years as a customer",
+    "telecom_zone": "Telecom zone (Addis Ababa)",
+    "telecom_region": "Telecom region (other regions)",
+    "services_use": "Products & services used",
+    "type_of_device": "Device type"
+  },
+  "report_templates": [
+    {
+      "name": "Respondent profile by location",
+      "type": "freq",
+      "by": "location_of_resident",
+      "rows": [
+        "respo_gender",
+        "age_ategories",
+        "marital_status",
+        "educational_level",
+        "occupation",
+        "nature_of_kebele"
+      ],
+      "values": [
+        "count",
+        "col_pct"
+      ],
+      "chart": "Stacked 100% by segment"
+    },
+    {
+      "name": "Respondent profile by gender",
+      "type": "freq",
+      "by": "respo_gender",
+      "rows": [
+        "age_ategories",
+        "educational_level",
+        "occupation",
+        "marital_status",
+        "location_of_resident"
+      ],
+      "values": [
+        "count",
+        "col_pct"
+      ],
+      "chart": "Stacked 100% by segment"
+    },
+    {
+      "name": "Respondent profile by telecom region",
+      "type": "freq",
+      "by": "telecom_region",
+      "rows": [
+        "respo_gender",
+        "age_ategories",
+        "nature_of_kebele"
+      ],
+      "values": [
+        "count",
+        "col_pct"
+      ],
+      "chart": "Clustered columns"
+    },
+    {
+      "name": "Customer profile by number of SIMs",
+      "type": "freq",
+      "by": "num_of_sim",
+      "rows": [
+        "how_long",
+        "sim_use",
+        "monthly_average_expenditure",
+        "respo_gender",
+        "age_ategories"
+      ],
+      "values": [
+        "count",
+        "col_pct"
+      ],
+      "chart": "Stacked 100% by segment"
+    },
+    {
+      "name": "Customer profile by SIM type",
+      "type": "freq",
+      "by": "sim_use",
+      "rows": [
+        "how_long",
+        "num_of_sim",
+        "monthly_average_expenditure",
+        "age_ategories"
+      ],
+      "values": [
+        "count",
+        "col_pct"
+      ],
+      "chart": "Stacked 100% by segment"
+    },
+    {
+      "name": "Products & services used by location",
+      "type": "freq",
+      "by": "location_of_resident",
+      "rows": [
+        "services_use",
+        "type_of_device"
+      ],
+      "values": [
+        "count",
+        "col_pct"
+      ],
+      "chart": "Horizontal bars"
+    },
+    {
+      "name": "Satisfaction scorecard by location",
+      "type": "scores",
+      "by": "location_of_resident",
+      "levels": [
+        "oss",
+        "pillar"
+      ],
+      "stats": [
+        "mean",
+        "n"
+      ],
+      "chart": "Clustered columns"
+    },
+    {
+      "name": "Satisfaction scorecard by telecom region",
+      "type": "scores",
+      "by": "telecom_region",
+      "levels": [
+        "oss",
+        "pillar"
+      ],
+      "stats": [
+        "mean",
+        "n"
+      ],
+      "chart": "Heatmap"
+    },
+    {
+      "name": "Satisfaction scorecard by gender",
+      "type": "scores",
+      "by": "respo_gender",
+      "levels": [
+        "oss",
+        "pillar"
+      ],
+      "stats": [
+        "mean",
+        "median",
+        "n"
+      ],
+      "chart": "Clustered columns"
+    },
+    {
+      "name": "Satisfaction scorecard by age category",
+      "type": "scores",
+      "by": "age_ategories",
+      "levels": [
+        "oss",
+        "pillar"
+      ],
+      "stats": [
+        "mean",
+        "n"
+      ],
+      "chart": "Clustered columns"
+    },
+    {
+      "name": "Satisfaction scorecard by number of SIMs",
+      "type": "scores",
+      "by": "num_of_sim",
+      "levels": [
+        "oss",
+        "pillar"
+      ],
+      "stats": [
+        "mean",
+        "n"
+      ],
+      "chart": "Clustered columns"
+    },
+    {
+      "name": "Satisfaction scorecard by SIM type",
+      "type": "scores",
+      "by": "sim_use",
+      "levels": [
+        "oss",
+        "pillar"
+      ],
+      "stats": [
+        "mean",
+        "n"
+      ],
+      "chart": "Clustered columns"
+    },
+    {
+      "name": "Satisfaction scorecard by expenditure band",
+      "type": "scores",
+      "by": "monthly_average_expenditure",
+      "levels": [
+        "oss",
+        "pillar"
+      ],
+      "stats": [
+        "mean",
+        "n"
+      ],
+      "chart": "Clustered columns"
+    },
+    {
+      "name": "Indicator detail by location (pillars to questions)",
+      "type": "scores",
+      "by": "location_of_resident",
+      "levels": [
+        "oss",
+        "pillar",
+        "sub",
+        "question"
+      ],
+      "stats": [
+        "mean",
+        "n"
+      ],
+      "chart": "Heatmap"
+    },
+    {
+      "name": "Spend and age by location",
+      "type": "numeric",
+      "by": "location_of_resident",
+      "rows": [
+        "mob_month_expense",
+        "expense_div_by_sim",
+        "respondent_age"
+      ],
+      "stats": [
+        "n",
+        "mean",
+        "median",
+        "q1",
+        "q3"
+      ]
+    }
+  ]
 }

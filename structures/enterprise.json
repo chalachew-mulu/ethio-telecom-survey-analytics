@@ -2,43 +2,423 @@
   "name": "Enterprise",
   "_comment": "Enterprise Customers' Satisfaction Survey. 'group' = every rating question in that script group; 'questions' = explicit list; 'match' = regex on question names; 'info_questions' / 'info_only' = shown in the Topline but NOT counted in the pillar means or the OSS (as in the Ethio telecom Enterprise Topline).",
   "pillars": [
-    {"title": "Quality of information received", "children": [
-        {"title": "Overall communication from channels", "group": "group_rate_media"},
-        {"title": "Information", "group": "rate_media"},
-        {"title": "Website", "group": "website_rating"}
-    ]},
-    {"title": "Advise and customer care at POS", "group": "sub_group"},
-    {"title": "Product purchase and activation", "group": "rateofe"},
-    {"title": "Easiness of products and services", "questions": ["ease_of_experience"]},
-    {"title": "Service process quality", "children": [
-        {"title": "Process time", "group": "qualityofprocess"},
-        {"title": "Quality of process", "group": "quality_of_process"}
-    ]},
-    {"title": "Value For Money", "questions": ["overall_mone_val"], "children": [
-        {"title": "VFM - Corporate / Large", "group": "money_value_rate", "info_only": true},
-        {"title": "VFM - SME / SOHO / Basic", "group": "perciev_price", "info_only": true}
-    ]},
-    {"title": "Network service quality", "info_questions": ["overall_rate", "overall_rate_internet", "recommend_telecome"], "children": [
-        {"title": "Voice services", "group": "net_ranking"},
-        {"title": "Fixed Broadband Internet or VPN services", "group": "evaluate_broad", "info_questions": ["recommend_broadband"]},
-        {"title": "Mobile Internet services", "children": [
-            {"title": "4G", "group": "evaluate_mis", "match": "^lte_4g"},
-            {"title": "3G", "group": "evaluate_mis", "match": "^(accessiblity|reliablity_3g|mob_phone_3g)$"}
-        ]}
-    ]},
-    {"title": "After sales service", "children": [
-        {"title": "Call centre", "group": "rating_call_center"},
-        {"title": "Account manager", "group": "contact_man"},
-        {"title": "Maintenance", "group": "other_rating"},
-        {"title": "Billing process", "group": "Postpaid_customers"}
-    ]}
+    {
+      "title": "Quality of information received",
+      "children": [
+        {
+          "title": "Overall communication from channels",
+          "group": "group_rate_media"
+        },
+        {
+          "title": "Information",
+          "group": "rate_media"
+        },
+        {
+          "title": "Website",
+          "group": "website_rating"
+        }
+      ]
+    },
+    {
+      "title": "Advise and customer care at POS",
+      "group": "sub_group"
+    },
+    {
+      "title": "Product purchase and activation",
+      "group": "rateofe"
+    },
+    {
+      "title": "Easiness of products and services",
+      "questions": [
+        "ease_of_experience"
+      ]
+    },
+    {
+      "title": "Service process quality",
+      "children": [
+        {
+          "title": "Process time",
+          "group": "qualityofprocess"
+        },
+        {
+          "title": "Quality of process",
+          "group": "quality_of_process"
+        }
+      ]
+    },
+    {
+      "title": "Value For Money",
+      "questions": [
+        "overall_mone_val"
+      ],
+      "children": [
+        {
+          "title": "VFM - Corporate / Large",
+          "group": "money_value_rate",
+          "info_only": true
+        },
+        {
+          "title": "VFM - SME / SOHO / Basic",
+          "group": "perciev_price",
+          "info_only": true
+        }
+      ]
+    },
+    {
+      "title": "Network service quality",
+      "info_questions": [
+        "overall_rate",
+        "overall_rate_internet",
+        "recommend_telecome"
+      ],
+      "children": [
+        {
+          "title": "Voice services",
+          "group": "net_ranking"
+        },
+        {
+          "title": "Fixed Broadband Internet or VPN services",
+          "group": "evaluate_broad",
+          "info_questions": [
+            "recommend_broadband"
+          ]
+        },
+        {
+          "title": "Mobile Internet services",
+          "children": [
+            {
+              "title": "4G",
+              "group": "evaluate_mis",
+              "match": "^lte_4g"
+            },
+            {
+              "title": "3G",
+              "group": "evaluate_mis",
+              "match": "^(accessiblity|reliablity_3g|mob_phone_3g)$"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "After sales service",
+      "children": [
+        {
+          "title": "Call centre",
+          "group": "rating_call_center"
+        },
+        {
+          "title": "Account manager",
+          "group": "contact_man"
+        },
+        {
+          "title": "Maintenance",
+          "group": "other_rating"
+        },
+        {
+          "title": "Billing process",
+          "group": "Postpaid_customers"
+        }
+      ]
+    }
   ],
   "segments": [
-    {"var": "type_of_enterprise", "title": "Type of enterprise"},
-    {"var": "comp_location", "title": "Company location"},
-    {"var": "telecom_zone", "title": "Telecom zone"},
-    {"var": "telecom_region", "title": "Telecom region"}
+    {
+      "var": "type_of_enterprise",
+      "title": "Type of enterprise"
+    },
+    {
+      "var": "comp_location",
+      "title": "Company location"
+    },
+    {
+      "var": "telecom_zone",
+      "title": "Telecom zone (Addis Ababa)"
+    },
+    {
+      "var": "name_subcity",
+      "title": "Sub-city (Addis Ababa)"
+    },
+    {
+      "var": "telecom_region",
+      "title": "Telecom region (other regions)"
+    },
+    {
+      "var": "name_of_city",
+      "title": "City (other regions)"
+    }
   ],
-  "extra_segments": ["enterprise_service", "actisim", "typeofsim", "last_visit", "network_type", "lastcall_time", "faced_faults", "faster_service", "used_safaricom"],
-  "bands": {"low_below": 7.0, "high_from": 8.0}
+  "extra_segments": [
+    "enterprise_service",
+    "actisim",
+    "typeofsim",
+    "last_visit",
+    "network_type",
+    "lastcall_time",
+    "faced_faults",
+    "faster_service",
+    "used_safaricom"
+  ],
+  "bands": {
+    "low_below": 7.0,
+    "high_from": 8.0
+  },
+  "labels": {
+    "type_of_enterprise": "Type of enterprise",
+    "comp_location": "Company location",
+    "company_segment": "Company segment",
+    "company_segment_code": "Company segment code",
+    "month_expense": "Monthly telecom expense (Birr)",
+    "num_of_branchs": "Number of branches",
+    "catagory": "Business category",
+    "business_sector": "Business sector",
+    "actisim": "Number of active SIM cards",
+    "typeofsim": "SIM type",
+    "rposition": "Respondent position",
+    "enterprise_service": "Enterprise services used",
+    "telecom_zone": "Telecom zone (Addis Ababa)",
+    "telecom_region": "Telecom region (other regions)"
+  },
+  "report_templates": [
+    {
+      "name": "Company profile by enterprise type",
+      "type": "freq",
+      "by": "type_of_enterprise",
+      "rows": [
+        "comp_location",
+        "business_sector",
+        "company_segment",
+        "actisim",
+        "typeofsim",
+        "rposition"
+      ],
+      "values": [
+        "count",
+        "col_pct"
+      ],
+      "chart": "Stacked 100% by segment"
+    },
+    {
+      "name": "Company profile by location",
+      "type": "freq",
+      "by": "comp_location",
+      "rows": [
+        "type_of_enterprise",
+        "business_sector",
+        "company_segment",
+        "actisim",
+        "typeofsim"
+      ],
+      "values": [
+        "count",
+        "col_pct"
+      ],
+      "chart": "Stacked 100% by segment"
+    },
+    {
+      "name": "Company profile by business sector",
+      "type": "freq",
+      "by": "business_sector",
+      "rows": [
+        "type_of_enterprise",
+        "company_segment",
+        "comp_location",
+        "actisim"
+      ],
+      "values": [
+        "count",
+        "col_pct"
+      ],
+      "chart": "Stacked 100% by segment"
+    },
+    {
+      "name": "Company profile by number of SIMs",
+      "type": "freq",
+      "by": "actisim",
+      "rows": [
+        "type_of_enterprise",
+        "company_segment",
+        "typeofsim",
+        "business_sector"
+      ],
+      "values": [
+        "count",
+        "col_pct"
+      ],
+      "chart": "Stacked 100% by segment"
+    },
+    {
+      "name": "Company profile by SIM type",
+      "type": "freq",
+      "by": "typeofsim",
+      "rows": [
+        "type_of_enterprise",
+        "actisim",
+        "company_segment"
+      ],
+      "values": [
+        "count",
+        "col_pct"
+      ],
+      "chart": "Stacked 100% by segment"
+    },
+    {
+      "name": "Enterprise services used by enterprise type",
+      "type": "freq",
+      "by": "type_of_enterprise",
+      "rows": [
+        "enterprise_service"
+      ],
+      "values": [
+        "count",
+        "col_pct"
+      ],
+      "chart": "Horizontal bars"
+    },
+    {
+      "name": "Profile by telecom region",
+      "type": "freq",
+      "by": "telecom_region",
+      "rows": [
+        "type_of_enterprise",
+        "business_sector",
+        "company_segment"
+      ],
+      "values": [
+        "count",
+        "col_pct"
+      ],
+      "chart": "Clustered columns"
+    },
+    {
+      "name": "Satisfaction scorecard by enterprise type",
+      "type": "scores",
+      "by": "type_of_enterprise",
+      "levels": [
+        "oss",
+        "pillar"
+      ],
+      "stats": [
+        "mean",
+        "n"
+      ],
+      "chart": "Clustered columns"
+    },
+    {
+      "name": "Satisfaction scorecard by location",
+      "type": "scores",
+      "by": "comp_location",
+      "levels": [
+        "oss",
+        "pillar"
+      ],
+      "stats": [
+        "mean",
+        "n"
+      ],
+      "chart": "Clustered columns"
+    },
+    {
+      "name": "Satisfaction scorecard by business sector",
+      "type": "scores",
+      "by": "business_sector",
+      "levels": [
+        "oss",
+        "pillar"
+      ],
+      "stats": [
+        "mean",
+        "n"
+      ],
+      "chart": "Heatmap"
+    },
+    {
+      "name": "Satisfaction scorecard by company segment",
+      "type": "scores",
+      "by": "company_segment",
+      "levels": [
+        "oss",
+        "pillar"
+      ],
+      "stats": [
+        "mean",
+        "n"
+      ],
+      "chart": "Clustered columns"
+    },
+    {
+      "name": "Satisfaction scorecard by number of SIMs",
+      "type": "scores",
+      "by": "actisim",
+      "levels": [
+        "oss",
+        "pillar"
+      ],
+      "stats": [
+        "mean",
+        "n"
+      ],
+      "chart": "Clustered columns"
+    },
+    {
+      "name": "Satisfaction scorecard by SIM type",
+      "type": "scores",
+      "by": "typeofsim",
+      "levels": [
+        "oss",
+        "pillar"
+      ],
+      "stats": [
+        "mean",
+        "n"
+      ],
+      "chart": "Clustered columns"
+    },
+    {
+      "name": "Satisfaction scorecard by telecom region",
+      "type": "scores",
+      "by": "telecom_region",
+      "levels": [
+        "oss",
+        "pillar"
+      ],
+      "stats": [
+        "mean",
+        "n"
+      ],
+      "chart": "Heatmap"
+    },
+    {
+      "name": "Indicator detail by enterprise type (pillars to questions)",
+      "type": "scores",
+      "by": "type_of_enterprise",
+      "levels": [
+        "oss",
+        "pillar",
+        "sub",
+        "question"
+      ],
+      "stats": [
+        "mean",
+        "n"
+      ],
+      "chart": "Heatmap"
+    },
+    {
+      "name": "Spend and branches by enterprise type",
+      "type": "numeric",
+      "by": "type_of_enterprise",
+      "rows": [
+        "month_expense",
+        "num_of_branchs"
+      ],
+      "stats": [
+        "n",
+        "mean",
+        "median",
+        "q1",
+        "q3"
+      ]
+    }
+  ]
 }

@@ -1,6 +1,6 @@
-# Satisfaction Survey Topline Generator
+# Ethio Telecom Data Analytics
 
-Upload the SurveyCTO script + the dataset -> get the Topline (Indicator / MEAN / BASE),
+Upload the questionnaire (SurveyCTO form) + the survey data -> get the Satisfaction scorecard (Indicator / Mean score / Respondents),
 filter by segments, compare segments, run the driver analysis, download a formatted Excel file.
 
 ## Run
@@ -14,7 +14,7 @@ pick segment filters, read the tabs, click **Excel report**.
 ## Residential AND Enterprise (and any future survey) - one app
 Upload the script + dataset of either survey. The app detects which one it is (it scores every file in
 `structures/` against your script and data) and loads the matching report structure. Everything else
-(filters, charts, General report, skip logic, Excel) works the same.
+(filters, charts, Report builder, skip logic, Excel) works the same.
 * `structures/residential.json`, `structures/enterprise.json` - one file per survey type. For a new survey type
   (e.g. SME), copy one of them, edit the pillars and drop it in `structures/`; it appears in the *Survey type* box.
   Choose *Automatic* to build a draft structure from the script's groups.
@@ -23,6 +23,22 @@ Upload the script + dataset of either survey. The app detects which one it is (i
   questions, exactly as in the Ethio telecom Enterprise Topline).
 * **Column mapping**: if a rating question is in the script but its column has another name in the dataset (Enterprise
   Round 14: the 15 Corporate price items), the sidebar proposes a pairing by position, which you can edit. Nothing is dropped silently.
+
+## The sidebar, step by step
+1. **Upload** the script and the dataset (the survey type is detected automatically).
+2. **Report columns** - pick **Compare by** (Location, Sub-city, City, Region, Gender, SIM type ... or *Total only*), optionally
+   *then by* a second variable (Region > City), and tick the categories to show. Every table, chart and Excel then has
+   **Total + one column per category**. Cities and sub-cities follow the script's skip logic automatically:
+   City = respondents who live in Other Regions; Sub-city = Addis Ababa residents (a note shows the rule and the base).
+3. **Filter respondents** (optional) - narrow who is included. Filters that cannot apply are hidden (choose Addis Ababa and the
+   Region / City filters disappear). **Clear all filters** resets them. Counts next to each choice show how many respondents.
+4. **Download** - the Topline Excel (Topline, Group summary, comparison sheet, charts, drivers, method).
+Need another variable? *Add variables* lets you use any question, or group a number (age, spend, SIMs) into custom ranges.
+
+## Compare segments tab
+Rows: **Pillars only / Pillars & sub-groups / All indicators / Custom**, limit to chosen pillars, include or hide the overall score.
+Show: mean, N, median, % high / low, weighted mean, standard deviation. Options: flag significant differences, highlight best / lowest
+category per row, hide Total, decimals, sort rows by any column, chart, CSV and Excel download. Small bases are listed under the table.
 
 ## For Round 15, 16, ...
 1. Upload the new script + new dataset. Nothing else is needed if the pillar group names are unchanged.
@@ -41,35 +57,22 @@ Upload the script + dataset of either survey. The app detects which one it is (i
 * Tick *Match Ethio telecom's sheet* in Report settings to compute Weighted mean as 2-decimal mean x N, exactly like
   Ethio telecom's file (15,675 for TV; 230,325 and 7.42 for the information block).
 
-## General report (tab "General report (all parts)")
-Covers EVERY question in the script - all PART groups (subscription, quality of information ... telebirr,
-attitudes, competitor, respondent profile), nested sub-groups, in script order - not only the rated indicators.
-* Question types are detected automatically: rating (1-10 list), numeric, single choice, multiple choice, open text (optional).
-* **Choose your statistics**: N, missing, mean, median, mode, std, variance, std error, 95% CI, min, Q1, Q3, max, IQR, range,
-  sum (= weighted mean), CV, skewness, % low / mid / high, top-2 box.
-* **Break down by ANY variable** (including text ones such as `name_of_city`, or custom numeric groups) and pick the categories.
-* Significance tests: each category vs the rest (Welch t-test / two-proportion z-test, with Cohen's d), overall ANOVA,
-  Kruskal-Wallis, chi-square + Cramer's V. Green/red / arrows mark significant differences.
-* **Key findings** are written automatically (strongest / weakest items, share of low ratings, profile snapshot, biggest
-  significant segment gaps with Benjamini-Hochberg correction, segment ranking).
-* Question explorer (frequency table + chart + segment cross-tab per question), correlations (Pearson / Spearman),
-  and a colour-coded Excel (overview, frequencies, segment sheets, findings, gaps, correlations, method).
-
-### Segments that follow the script's skip logic (city, sub-city, zone, region ...)
-* The tool reads the `relevance` column of the script (including group-level rules) and evaluates it on the data.
-  e.g. `name_of_city` is asked only if location = Other Regions, `name_subcity` / `telecom_zone` only if Addis Ababa.
-  When you break down by such a variable, the analysis population is automatically limited to respondents who were
-  asked it (a banner shows the rule and N), and "vs the rest" compares the other cities, not the whole sample.
-  Untick *Follow the script's skip logic* to turn this off.
-* **Drill down**: "only respondents where Telecom region = South Region" -> then break down by city.
-* **Nested segments**: "Break down by Telecom region, then by City" gives Region > City categories
-  (also Zone > Sub-city, Region > Gender ...).
-* Free-text segments (city names) merge spelling variants that differ only in case or spaces.
-* Each question in the explorer shows who was asked it, eligible N, answered N and response rate.
-* The Topline sidebar also accepts these text variables via *Add more segments* (largest 12 categories shown by default).
+## Report builder (tab "Report builder") - build any report in five steps
+1. **Report type**: Profile & choice questions (counts, column %, row %) | Satisfaction scores (any statistic) |
+   Numeric measures (spend, age, SIMs, branches ...) | Indicator relationships (correlation).
+2. **Rows**: pick questions (search, or add a whole part), or Topline indicators (overall / pillars / sub-groups / questions).
+3. **Break down by**: any variable, optionally nested (Region > City). Every table shows **Total + each category**.
+   Segment questions follow the script's skip logic (e.g. city = Other Regions respondents only); you can also restrict the population.
+4. **Statistics / values**: tick what you want (N, mean, median, mode, std, quartiles, CI, % low / high ...).
+5. **Output**: decimals, flag significant differences (95%), group columns by statistic or by segment.
+Results: Table | Chart (clustered, horizontal, stacked 100%, heatmap) | Download (CSV, Excel with native charts,
+and a **report pack** = the same report for several break-downs, one sheet each).
+**Quick start templates** (Residential and Enterprise): profile by location / gender / region / SIMs / SIM type / sector,
+satisfaction scorecards by each of those, indicator detail, spend. Templates live in `structures/*.json`
+(`report_templates`); add your own lines there. `labels` in the same file renames variables for display.
 
 ### Adding new questions next round (e.g. 5G)
-1. Add them to the SurveyCTO script (inside any group) - they appear in the General report automatically, with the right type.
+1. Add them to the SurveyCTO script (inside any group) - they appear in the Report builder automatically, with the right type.
 2. To include them in the Topline pillars/OSS, add the group or questions to `structures/*.json`
    (e.g. a child `{"title": "5G", "group": "mobile_network", "match": "_5g$"}` under "Mobile internet (data)").
    Nested levels (pillar > sub-group > sub-sub-group) are unlimited. The Checks tab lists rating questions not yet in any pillar.
@@ -102,4 +105,14 @@ Edit `extra_segments` in structure.json to change the suggested list; `bands` fo
 `python tests/verify_r14.py` (Residential) and `python tests/verify_enterprise.py` (Enterprise) reproduce the Round-14 Toplines from the raw files (0 base differences; Enterprise OSS 7.684 on N=37,817).
 
 ## Files
-`app.py` interface | `core.py` calculations | `charts.py` charts | `export.py` Excel | `structures/` per-survey configs
+`app.py` interface | `core.py` Topline calculations | `builder*.py` + `export_builder.py` Report builder | `general.py` question inventory & statistics | `skip.py` skip logic | `charts.py` Topline charts | `export.py` Topline Excel | `structures/` per-survey configs
+
+
+## Screen names (what each part is called)
+Tabs: **Satisfaction scorecard** (overall score, pillars, sub-groups, questions) | **Visual summary** (charts; measure = mean score,
+% high scores 8-10, % low scores 1-5 or respondents) | **Compare groups** (Total + each group side by side) |
+**Key drivers & change** (importance of each pillar, change vs last round) | **Data quality** (checks) | **Custom report builder**.
+Sidebar: 1 Upload your files, 2 Choose how to split the report, 3 Choose which respondents to include, 4 Download.
+The page title follows the uploaded survey ("Ethio Telecom - Enterprise / Residential Customer Satisfaction Analytics").
+Charts always use a white background with dark text; use the *Prepare chart image (PNG)* button under any chart for a sharp image.
+Excel sheets: Scorecard | Pillar summary | By <variable> | Charts | Key drivers | Methodology.
